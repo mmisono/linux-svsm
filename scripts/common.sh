@@ -137,7 +137,7 @@ build_install_qemu()
 	MAKE="make -j $(getconf _NPROCESSORS_ONLN) LOCALVERSION="
 
 	pushd qemu >/dev/null
-		run_cmd ./configure --target-list=x86_64-softmmu --prefix=$DEST --disable-werror --disable-virtiofsd
+		run_cmd ./configure --target-list=x86_64-softmmu --prefix=$DEST --disable-werror --disable-virtiofsd --enable-slirp
 		run_cmd $MAKE
 		run_cmd $MAKE install
 	popd >/dev/null
