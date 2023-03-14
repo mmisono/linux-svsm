@@ -33,7 +33,8 @@ LDS_FLAGS	+= -DSVSM_MEM="$(SVSM_MEM)"
 
 .PHONY: all doc prereq clean superclean
 
-all: .prereq svsm.bin
+# all: .prereq svsm.bin
+all: svsm.bin
 
 doc: .prereq
 	cargo doc --open
