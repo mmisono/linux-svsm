@@ -2,7 +2,7 @@
 
 GCC		= gcc
 
-SHELL		:= /bin/bash
+# SHELL		:= /bin/bash
 
 A_FLAGS		:= -D__ASSEMBLY__
 
