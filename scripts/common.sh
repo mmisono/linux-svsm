@@ -97,12 +97,13 @@ build_kernel()
 			# Build
 			run_cmd $MAKE >/dev/null
 
-			if [ "$ID" = "debian" ] || [ "$ID_LIKE" = "debian" ]; then
-				run_cmd $MAKE bindeb-pkg
-			else
-				run_cmd $MAKE "RPMOPTS='--define \"_rpmdir .\"'" binrpm-pkg
-				run_cmd mv ${V}/x86_64/*.rpm .
-			fi
+			# Create deb/rpm package
+			#if [ "$ID" = "debian" ] || [ "$ID_LIKE" = "debian" ]; then
+			#	run_cmd $MAKE bindeb-pkg
+			#else
+			#	run_cmd $MAKE "RPMOPTS='--define \"_rpmdir .\"'" binrpm-pkg
+			#	run_cmd mv ${V}/x86_64/*.rpm .
+			#fi
 		done
 	popd >/dev/null
 }
