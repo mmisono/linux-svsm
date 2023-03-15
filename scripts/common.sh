@@ -14,6 +14,7 @@ run_cmd()
 build_kernel()
 {
 	KERNEL_TYPE=$1
+	CONFIG_FILE=$2
 
 	mkdir -p linux
 	pushd linux >/dev/null
@@ -61,7 +62,12 @@ build_kernel()
 				run_cmd git checkout current/${BRANCH}
 				COMMIT=$(git log --format="%h" -1 HEAD)
 
-				run_cmd "cp /boot/config-$(uname -r) .config || zcat /proc/config.gz > .config"
+				if [ "$CONFIG_FILE" != "" ]; then
+					# assume $CONFIG_FILE is relative to the script dir
+					run_cmd "cp ../../$CONFIG_FILE .config"
+				else
+					run_cmd "cp /boot/config-$(uname -r) .config || zcat /proc/config.gz > .config"
+				fi
 				run_cmd ./scripts/config --set-str LOCALVERSION "$VER-$COMMIT"
 				run_cmd ./scripts/config --disable LOCALVERSION_AUTO
 				run_cmd ./scripts/config --enable  DEBUG_INFO
@@ -75,7 +81,15 @@ build_kernel()
 				run_cmd ./scripts/config --disable SYSTEM_REVOCATION_KEYS
 				run_cmd ./scripts/config --module  SEV_GUEST
 				run_cmd ./scripts/config --disable IOMMU_DEFAULT_PASSTHROUGH
-				run_cmd ./scripts/config --enable EXPERT
+				run_cmd ./scripts/config --enable  EXPERT
+				run_cmd ./scripts/config --enable  EXT4_FS
+				run_cmd ./scripts/config --enable  VFAT_FS
+				run_cmd ./scripts/config --enable  NLS_ISO8859_1
+				run_cmd ./scripts/config --enable  BLK_DEV_DM
+				run_cmd ./scripts/config --enable  DM_MULTIPATH
+				run_cmd ./scripts/config --enable  SCSI
+				run_cmd ./scripts/config --enable  VIRTIO
+				run_cmd ./scripts/config --enable  SCSI_VIRTIO
 			popd >/dev/null
 
 			yes "" | $MAKE olddefconfig

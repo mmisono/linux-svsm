@@ -68,7 +68,7 @@ else
 		;;
 	kernel)
 		# additional argument of "host" or "guest" can be added to limit build to that type
-		build_kernel $2
+		build_kernel $2 $3
 		;;
 	esac
 fi
