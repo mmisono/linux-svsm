@@ -425,7 +425,8 @@ add_opts "-monitor pty -monitor unix:monitor,server,nowait"
 if [ -n "$BRIDGE" ]; then
 	setup_bridge_network
 else
-	add_opts "-netdev user,id=vmnic -device e1000,netdev=vmnic,romfile="
+	# add_opts "-netdev user,id=vmnic -device e1000,netdev=vmnic,romfile="
+	add_opts "-netdev user,id=vmnic,hostfwd=tcp::6666-:22 -device e1000,netdev=vmnic,romfile="
 fi
 
 # log the console  output in stdout.log
