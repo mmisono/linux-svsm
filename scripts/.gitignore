@@ -1,0 +1,8 @@
+*.iso
+*.fd
+*.qcow2
+linux/
+qemu/
+ovmf/
+usr/
+snp-release*
