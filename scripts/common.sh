@@ -90,6 +90,7 @@ build_kernel()
 				run_cmd ./scripts/config --enable  SCSI
 				run_cmd ./scripts/config --enable  VIRTIO
 				run_cmd ./scripts/config --enable  SCSI_VIRTIO
+				run_cmd ./scripts/config --enable  E1000
 			popd >/dev/null
 
 			yes "" | $MAKE olddefconfig
