@@ -1,0 +1,66 @@
+# vim: set ft=make et :
+
+guest_user := 'm'
+guest_port := '6666'
+guest_img := 'guest.qcow2'
+guest_config := './config-5.19.0-21-generic'
+svsm := justfile_directory() / '../svsm.bin'
+
+default:
+    @just --choose
+
+launch_iso:
+    sudo ./launch-qemu.sh -hda {{guest_img}} \
+        -cdrom ubuntu-22.10-live-server-amd64.iso
+
+launch_normal_orig_kernel:
+    sudo ./launch-qemu.sh -hda {{guest_img}}
+
+launch_normal:
+    sudo ./launch-qemu.sh -hda {{guest_img}} \
+        -kernel ./linux/guest/arch/x86_64/boot/bzImage
+
+launch_sev:
+    sudo ./launch-qemu.sh -hda {{guest_img}} \
+        -kernel ./linux/guest/arch/x86_64/boot/bzImage \
+        -sev
+
+launch_es:
+    sudo ./launch-qemu.sh -hda {{guest_img}} \
+        -kernel ./linux/guest/arch/x86_64/boot/bzImage \
+        -sev-es
+
+launch_snp:
+    sudo ./launch-qemu.sh -hda {{guest_img}} \
+        -kernel ./linux/guest/arch/x86_64/boot/bzImage \
+        -sev-snp
+
+launch_svsm:
+    sudo ./launch-qemu.sh -hda {{guest_img}} \
+        -kernel ./linux/guest/arch/x86_64/boot/bzImage \
+        -sev-snp \
+        -svsm {{svsm}}
+
+ssh:
+    ssh -p {{guest_port}} {{guest_user}}@localhost
+
+build_qemu:
+    ./build.sh qemu
+
+build_ovmf:
+    ./build.sh ovmf
+
+build_guest:
+    ./build.sh kernel guest {{guest_config}}
+
+build:
+    just build_qemu
+    just build_ovmf
+    just build_guest
+
+get_ubuntu_iso:
+    wget https://releases.ubuntu.com/kinetic/ubuntu-22.10-live-server-amd64.iso
+
+create_qemu_img:
+    qemu-img create -f qcow2 {{guest_img}} 30G
+
