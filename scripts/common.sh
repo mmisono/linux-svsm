@@ -91,6 +91,9 @@ build_kernel()
 				run_cmd ./scripts/config --enable  VIRTIO
 				run_cmd ./scripts/config --enable  SCSI_VIRTIO
 				run_cmd ./scripts/config --enable  E1000
+				run_cmd ./scripts/config --enable  SEV_GUEST
+				run_cmd ./scripts/config --enable  KVM
+				run_cmd ./scripts/config --enable  KVM_AMD
 			popd >/dev/null
 
 			yes "" | $MAKE olddefconfig
