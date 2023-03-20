@@ -35,6 +35,10 @@ launch_snp:
         -kernel ./linux/guest/arch/x86_64/boot/bzImage \
         -sev-snp
 
+launch_snp_orig_kernel:
+    sudo ./launch-qemu.sh -hda {{guest_img}} \
+        -sev-snp
+
 launch_svsm:
     sudo ./launch-qemu.sh -hda {{guest_img}} \
         -kernel ./linux/guest/arch/x86_64/boot/bzImage \
